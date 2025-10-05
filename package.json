@@ -1,18 +1,22 @@
 {
   "name": "teste",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "obs": "tsc && node dist/observer.js"
+    "build": "tsc",
+    "start": "node dist/observer.js",
+    "obs": "npm run build && npm run start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/node": "^24.4.0",
+    "@types/node": "^24.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "mysql2": "^3.15.1"
   }
 }
