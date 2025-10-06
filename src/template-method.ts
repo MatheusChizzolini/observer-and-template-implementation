@@ -12,12 +12,12 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-async function menu() {
+async function main() {
   const db = Singleton.getInstance();
   const conn = await db.getConnection();
   const produtoRepo = new ProdutoPersistence();
 
-  console.log("\n===== Menu de Controle de Estoque =====");
+  console.log("\nTemplate Method - Projeto Latido");
   let continuar = true;
 
   while (continuar) {
@@ -125,4 +125,4 @@ async function registrarSaida(produtoRepo: ProdutoPersistence) {
   }
 }
 
-menu();
+main();

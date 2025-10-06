@@ -59,28 +59,42 @@ async function menuNotificacoes(
   conn: PoolConnection,
   repo: ApoiadorPersistence
 ) {
-  console.log(`
+  let sair = false;
+  while (!sair) {
+    console.log(`
 ===== Configurações de Notificação =====
 [1] Ativar notificação para apoiador
 [2] Desativar notificação para apoiador
+[3] Voltar ao menu principal
 ----------------------------------------
 `);
+    const opcao = await rl.question("Escolha uma ação: ");
 
-  const opcao = await rl.question("Escolha uma ação: ");
-  const id = parseInt(await rl.question("ID do apoiador: "));
+    switch (opcao.trim()) {
+      case "1":
+      case "2": {
+        const id = parseInt(await rl.question("ID do apoiador: "));
+        const status = opcao === "1";
+        const apoiador = new Apoiador(id, "", "", "", "", status);
+        const ok = await repo.atualizarNotificados(conn, apoiador);
 
-  const status = opcao === "1";
-  const apoiador = new Apoiador(id, "", "", "", "", status);
-  const ok = await repo.atualizarNotificados(conn, apoiador);
-
-  if (ok) {
-    console.log(
-      status
-        ? "Apoiador agora receberá notificações."
-        : "Notificações desativadas para este apoiador."
-    );
-  } else {
-    console.log("Ocorreu um erro ao alterar as configurações.");
+        if (ok) {
+          console.log(
+            status
+              ? "Apoiador agora receberá notificações."
+              : "Notificações desativadas para este apoiador."
+          );
+        } else {
+          console.log("Ocorreu um erro ao alterar as configurações.");
+        }
+        break;
+      }
+      case "3":
+        sair = true;
+        break;
+      default:
+        console.log("Opção inválida, tente novamente.\n");
+    }
   }
 }
 
@@ -117,9 +131,10 @@ async function menuEstoque(
     ).toLowerCase();
 
     if (operacao === "r" && produto.getQuantidade() - valor < 0) {
-        console.log("Não é possível realizar a operação, quantidade do estoque se torna negativa.");
-    }
-    else {
+      console.log(
+        "Não é possível realizar a operação, quantidade do estoque se torna negativa."
+      );
+    } else {
       produto.alterarQuantidade(valor, operacao);
       const ok = await produtoRepo.atualizarQuantidade(conn, produto);
       if (ok) {
@@ -135,8 +150,7 @@ async function menuEstoque(
           apoiadores.forEach((a) => produto.adicionarObservador(a));
           produto.notificarObservadores();
         }
-      }
-      else {
+      } else {
         console.log("Erro ao atualizar estoque no banco de dados.");
       }
     }
@@ -149,13 +163,12 @@ async function listarProdutos(conn: PoolConnection, repo: ProdutoPersistence) {
 
   if (produtos.length === 0) {
     console.log("Nenhum produto encontrado.");
-    return;
-  }
-
-  for (const p of produtos) {
-    console.log(
-      `ID: ${p.getId()} | ${p.getDescricao()} (${p.getMarca()}) - ${p.getQuantidade()} unidade(s)`
-    );
+  } else {
+    for (const p of produtos) {
+      console.log(
+        `ID: ${p.getId()} | ${p.getDescricao()} (${p.getMarca()}) - ${p.getQuantidade()} unidade(s)`
+      );
+    }
   }
 }
 
