@@ -4,11 +4,11 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/observer.js",
-    "obs": "npm run build && npm run start"
+    "obs": "tsc && node dist/observer.js",
+    "tm": "tsc && node dist/template-method.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "", 
   "license": "ISC",
   "description": "",
   "devDependencies": {

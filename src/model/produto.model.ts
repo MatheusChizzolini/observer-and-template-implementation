@@ -24,6 +24,10 @@ export class Produto implements Sujeito {
     return this.quantidade;
   }
 
+  public setQuantidade(novaQtd: number) {
+    this.quantidade = novaQtd;
+  }
+
   public adicionarObservador(obs: Observador): void {
     this.observadores.push(obs);
   }
