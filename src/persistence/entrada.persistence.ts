@@ -4,7 +4,11 @@ import type { Produto } from "../model/produto.model.js";
 import type { Entrada } from "../model/entrada.model.js";
 import type { Saida } from "../model/saida.model.js";
 
-export class EntradaPersistence extends Estoque{
+export class EntradaPersistence extends Estoque {
+  constructor() {
+    super();
+  }
+
   public async registrar(
     db: PoolConnection,
     entrada: Entrada,

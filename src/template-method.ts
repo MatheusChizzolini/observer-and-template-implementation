@@ -84,7 +84,7 @@ async function registrarEntrada(produtoRepo: ProdutoPersistence) {
   );
 
   const estoque: Estoque = new EntradaPersistence();
-  await estoque.registrarPrincipal(produto!, entrada, null, true);
+  await estoque.registrarPrincipal(produto!, entrada, null);
 
   console.log("Entrada registrada com sucesso!");
 }
@@ -120,7 +120,7 @@ async function registrarSaida(produtoRepo: ProdutoPersistence) {
       produto!
     );
     const estoque: Estoque = new SaidaPersistence();
-    await estoque.registrarPrincipal(produto!, null, saida, false);
+    await estoque.registrarPrincipal(produto!, null, saida);
     console.log("Saída registrada com sucesso!");
   }
 }

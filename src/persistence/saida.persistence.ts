@@ -5,6 +5,10 @@ import type { Entrada } from "../model/entrada.model.js";
 import type { Saida } from "../model/saida.model.js";
 
 export class SaidaPersistence extends Estoque {
+  constructor() {
+    super();
+  }
+
   public async registrar(
     db: PoolConnection,
     entrada: Entrada | null,
@@ -22,7 +26,7 @@ export class SaidaPersistence extends Estoque {
         produto.getId(),
       ]
     );
-    
+
     if (result && (result as any).affectedRows > 0) {
       return true;
     }

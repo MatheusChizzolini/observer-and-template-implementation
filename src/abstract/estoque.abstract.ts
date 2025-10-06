@@ -5,12 +5,12 @@ import type { Produto } from "../model/produto.model.js";
 import { Singleton } from "../database/singleton.js";
 
 export abstract class Estoque {
-  constructor() {}
+  protected constructor() {}
 
-  async registrarPrincipal(produto: Produto, entrada: Entrada | null, saida: Saida | null, flag: boolean) {
+  public async registrarPrincipal(produto: Produto, entrada: Entrada | null, saida: Saida | null) {
     const db = await Singleton.getInstance().getConnection();
     await this.atualizarQuantidade(db, produto);
-    if (flag) {
+    if (entrada) {
       await this.registrar(db, entrada, null, produto);
     }
     else {
